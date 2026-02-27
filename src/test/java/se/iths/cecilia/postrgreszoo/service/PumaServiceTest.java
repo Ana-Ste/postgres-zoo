@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +39,9 @@ class PumaServiceTest {
         puma.setAge(5);
         puma.setWeight(60);
 
-        service.create(puma);
+        when(repository.save(any(Puma.class))).thenReturn(puma);
+
+        Puma saved = service.create(puma);
 
         verify(validator).validate(puma);
         verify(repository).save(puma);
